@@ -42,8 +42,12 @@ Dataset yang digunakan dalam proyek ini adalah **Amazon Product Reviews Dataset*
 - `reviews.doRecommend`: Menunjukkan apakah pelanggan merekomendasikan produk tersebut.
 - `sentiment`: Label sentimen yang diturunkan dari `reviews.rating`, di mana ulasan dikategorikan sebagai **"Positif"** jika rating lebih dari 3, dan **"Negatif"** jika rating 3 atau kurang.
 
+![Gambar 1.1 Perbandingan](Asset/Distribusi_Sentimen.png)
+
 ### **Exploratory Data Analysis (EDA)**
 Beberapa visualisasi awal menunjukkan distribusi ulasan berdasarkan rating dan sentimen, serta frekuensi kata-kata yang muncul dalam ulasan. Hasil EDA ini memberikan gambaran tentang keseimbangan kelas dan pola teks dalam dataset.
+
+![Gambar 1.2 Confusion Matrix](Asset/Confusion_Matrix.png)
 
 Tautan ke dataset: [Amazon Product Reviews Dataset](https://www.kaggle.com/datasets/yasserh/amazon-product-reviews-dataset)
 
@@ -102,8 +106,11 @@ Beberapa metrik evaluasi digunakan untuk mengukur kinerja model:
 | Naive Bayes           | 87.2%    | 86.9%     | 100%    | 93%      |
 | Random Forest         | 89.8%    | 89.6%     | 99.5%   | 94.3%    |
 
+![Gambar 1.3 Chart Hasil Evaluasi](Asset/Chart_Evaluasi.png)
+
 Dari hasil evaluasi, **Random Forest** menunjukkan performa terbaik dengan akurasi **89.8%** dan F1-Score tertinggi **94.3%**. Model ini dipilih sebagai model terbaik dalam proyek ini.
 
+![Gambar 1.4 Chart Hasil Evaluasi](Asset/Perbandingan.png)
 ---
 
 ## Deployment
