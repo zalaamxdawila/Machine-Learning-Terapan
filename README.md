@@ -1,6 +1,8 @@
-# Laporan Proyek Machine Learning - Predictive Analytics Keputusan Pembelian Berdasarkan Ulasan Produk
+# Laporan Proyek Machine Learning - M Dicky Desriansyah
 
 ## Project Overview
+
+Predictive Analytics Keputusan Pembelian Berdasarkan Ulasan Produk
 
 Dalam era e-commerce yang berkembang pesat, ulasan pelanggan memainkan peran penting dalam keputusan pembelian. Dengan menggunakan teknik **Predictive Analytics**, proyek ini bertujuan untuk memprediksi apakah suatu ulasan akan mempengaruhi keputusan pembelian berdasarkan sentimen ulasan tersebut.
 
