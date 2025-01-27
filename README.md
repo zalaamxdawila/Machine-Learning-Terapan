@@ -91,7 +91,57 @@ POST /predict
 
 Model dapat di-deploy ke cloud seperti **Heroku, AWS, atau Google Cloud Run**.
 
+### Error Handling
+Untuk menangani kesalahan atau input tidak valid, API dilengkapi dengan mekanisme berikut:
+- **Validasi Input**: Memastikan input yang diterima berupa teks yang valid.
+- **Penanganan Kesalahan**: Jika input kosong atau tidak sesuai format, API akan mengembalikan respon dengan status kode 400 dan pesan error yang sesuai.
+- **Logging**: Merekam permintaan yang gagal untuk analisis lebih lanjut.
+
+Contoh respon error:
+```json
+{
+    "error": "Input tidak valid. Harap masukkan teks ulasan."
+}
+```
+
+Model yang telah dilatih di-deploy menggunakan **Flask API**, dengan endpoint:
+
+```
+POST /predict
+{
+    "review": "Produk ini sangat bagus!"
+}
+```
+
+**Response:**
+```json
+{
+    "review": "Produk ini sangat bagus!",
+    "sentiment": "positive"
+}
+```
+
+Model dapat di-deploy ke cloud seperti **Heroku, AWS, atau Google Cloud Run**.
+
 ## Kesimpulan
+
+- Model Logistic Regression memberikan performa terbaik dalam klasifikasi sentimen ulasan.
+- Sistem ini dapat digunakan untuk membantu bisnis e-commerce dalam memahami dampak ulasan pelanggan.
+- Ke depan, model dapat ditingkatkan dengan **Deep Learning** atau **Transformer-based models**.
+
+### Tantangan yang Dihadapi
+- **Kualitas Data**: Banyak ulasan yang mengandung teks tidak relevan atau terlalu pendek sehingga sulit diklasifikasikan.
+- **Ketidakseimbangan Kelas**: Jumlah ulasan positif jauh lebih banyak dibandingkan ulasan negatif, yang dapat mempengaruhi performa model.
+- **Preprocessing yang Kompleks**: Normalisasi teks, penghapusan stopwords, dan stemming membutuhkan tuning yang tepat agar model dapat memahami konteks dengan baik.
+- **Kompleksitas Model**: Model yang lebih kompleks seperti Transformer membutuhkan lebih banyak data dan daya komputasi untuk hasil yang lebih baik.
+
+---
+
+**Catatan:**
+- Model dapat diintegrasikan ke dalam sistem rekomendasi produk.
+- Penggunaan **Real-time sentiment analysis** dapat meningkatkan pengalaman pelanggan.
+
+🚀 **Proyek ini siap untuk tahap implementasi lebih lanjut!**
 
 - Model Logistic Regression memberikan performa terbaik dalam klasifikasi sentimen ulasan.
 - Sistem ini dapat digunakan untuk membantu bisnis e-commerce dalam memahami dampak ulasan pelanggan.
