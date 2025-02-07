@@ -83,6 +83,9 @@ Tahap ini bertujuan untuk menyiapkan teks ulasan agar lebih mudah diolah oleh mo
 - **Stop Words Removal:** Kata-kata umum yang sering muncul tetapi kurang informatif seperti "the", "a", "is", dan "are" dihapus menggunakan daftar *stop words* yang tersedia di NLTK. Penghapusan *stop words* membantu memfokuskan analisis pada kata-kata yang lebih bermakna.
 - **Stemming:** Setiap kata diubah ke bentuk dasarnya atau *stem* menggunakan algoritma Porter Stemmer. *Stemming* bertujuan untuk menyatukan kata-kata yang memiliki akar kata yang sama (misalnya, "running", "runs", dan "run" menjadi "run").
 
+![download](https://github.com/user-attachments/assets/d8d79188-ec94-41a1-85c1-34e559fb61e5)
+
+
 ### Labeling (Pelabelan)
 
 Tahap ini membuat label sentimen berdasarkan rating ulasan.
@@ -103,6 +106,10 @@ Dataset yang telah diproses dan direkayasa fiturnya dibagi menjadi dua bagian ut
 - **Data Testing:** 20% dari data digunakan untuk menguji kinerja model setelah dilatih. Pembagian data ini menggunakan fungsi `train_test_split` dari library Scikit-learn.
 
 Dengan mengikuti tahapan persiapan data yang runtut dan lengkap ini, data menjadi lebih siap untuk digunakan dalam pemodelan *machine learning* untuk analisis sentimen.
+
+
+![download](https://github.com/user-attachments/assets/b43fd993-63fc-4236-85e4-fd578653afa2)
+
 
 
 ---
@@ -150,6 +157,10 @@ for name, model in models.items():
 *   **Cara Kerja:** Random Forest adalah model *ensemble* yang menggunakan banyak pohon keputusan untuk membuat prediksi. Setiap pohon dilatih pada subset data yang berbeda dan menggunakan fitur yang berbeda. Prediksi akhir dibuat dengan menggabungkan prediksi dari semua pohon, biasanya melalui *voting* mayoritas untuk klasifikasi.
 *   **Parameter:**
     *   Semua parameter yang digunakan adalah *default*.
+ 
+![download](https://github.com/user-attachments/assets/a52f6e4b-385f-49a6-acda-9eb4bdc57f3f)
+
+
 
 ### Proses Pelatihan
 
@@ -173,6 +184,9 @@ Beberapa metrik evaluasi digunakan untuk mengukur kinerja model secara komprehen
 *   **F1-Score (F1-Score):** Rata-rata harmonik antara presisi dan *recall*. Memberikan ukuran keseimbangan antara presisi dan *recall*.
 
 ### Hasil Evaluasi
+
+![download](https://github.com/user-attachments/assets/16fd767e-5799-4f24-8310-9679aeb4afca)
+
 
 | Model                | Akurasi | Presisi | *Recall*  | F1-Score |
 | ---------------------- | -------- | ------- | --------- | -------- |
