@@ -73,6 +73,14 @@ Langkah awal melibatkan pembersihan data untuk memastikan kualitas dan konsisten
 
 - **Menghapus Data Kosong:** Baris dengan nilai kosong (*missing value*) pada kolom `reviews.text` (teks ulasan) dan `reviews.rating` (rating) dihapus menggunakan fungsi `dropna()`. Hal ini penting untuk menghindari error dan memastikan data yang diolah lengkap.
 
+
+### Labeling (Pelabelan)
+
+Tahap ini membuat label sentimen berdasarkan rating ulasan.
+
+- **Membuat Kolom Sentimen:** Kolom baru bernama `sentiment` dibuat berdasarkan nilai pada kolom `reviews.rating`. Ulasan dengan rating lebih dari 3 diberi label "positive", sedangkan ulasan dengan rating 3 atau kurang diberi label "negative".
+
+
 ### Text Preprocessing
 
 Tahap ini bertujuan untuk menyiapkan teks ulasan agar lebih mudah diolah oleh model NLP.
@@ -86,18 +94,6 @@ Tahap ini bertujuan untuk menyiapkan teks ulasan agar lebih mudah diolah oleh mo
 ![download](https://github.com/user-attachments/assets/d8d79188-ec94-41a1-85c1-34e559fb61e5)
 
 
-### Labeling (Pelabelan)
-
-Tahap ini membuat label sentimen berdasarkan rating ulasan.
-
-- **Membuat Kolom Sentimen:** Kolom baru bernama `sentiment` dibuat berdasarkan nilai pada kolom `reviews.rating`. Ulasan dengan rating lebih dari 3 diberi label "positive", sedangkan ulasan dengan rating 3 atau kurang diberi label "negative".
-
-### Feature Engineering (Rekayasa Fitur)
-
-Tahap ini mengubah teks yang telah diproses menjadi fitur numerik yang dapat dipahami oleh model *machine learning*.
-
-- **TF-IDF Vectorization:** Teks ulasan yang telah diproses diubah menjadi representasi numerik menggunakan metode *Term Frequency-Inverse Document Frequency* (TF-IDF). TF-IDF memberikan bobot pada setiap kata berdasarkan frekuensi kemunculannya dalam dokumen dan seberapa jarang kata tersebut muncul di seluruh korpus.
-
 ### Data Splitting (Pembagian Data)
 
 Dataset yang telah diproses dan direkayasa fiturnya dibagi menjadi dua bagian utama.
@@ -110,6 +106,12 @@ Dengan mengikuti tahapan persiapan data yang runtut dan lengkap ini, data menjad
 
 ![download](https://github.com/user-attachments/assets/b43fd993-63fc-4236-85e4-fd578653afa2)
 
+
+### Feature Engineering (Rekayasa Fitur)
+
+Tahap ini mengubah teks yang telah diproses menjadi fitur numerik yang dapat dipahami oleh model *machine learning*.
+
+- **TF-IDF Vectorization:** Teks ulasan yang telah diproses diubah menjadi representasi numerik menggunakan metode *Term Frequency-Inverse Document Frequency* (TF-IDF). TF-IDF memberikan bobot pada setiap kata berdasarkan frekuensi kemunculannya dalam dokumen dan seberapa jarang kata tersebut muncul di seluruh korpus.
 
 
 ---
