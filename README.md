@@ -7,8 +7,6 @@ Game adalah bentuk hiburan yang sangat populer dengan berbagai genre dan pengala
 Sistem rekomendasi ini bertujuan untuk membantu pemain menemukan game indie yang sesuai dengan preferensi mereka, baik berdasarkan mood (relaksasi, tantangan, eksplorasi) maupun gaya bermain yang disukai. Dengan menggunakan teknik *Natural Language Processing* (NLP) dan *Collaborative Filtering*, sistem ini dapat memberikan rekomendasi yang lebih personal.
 
 Referensi terkait:
-
-- [A survey of content-based and collaborative filtering-based recommendation systems](https://www.sciencedirect.com/science/article/pii/S095741742101528X)
 - [Recommender Systems in Gaming](https://dl.acm.org/doi/10.1145/3340631.3394856)
 
 ## Business Understanding
