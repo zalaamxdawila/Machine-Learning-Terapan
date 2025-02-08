@@ -2,6 +2,17 @@
 
 ## **Sistem Rekomendasi Game Indie Berdasarkan Mood & Gaya Bermain 🎮🕹️**
 
+### **Business Understanding**
+#### **Problem Statements**
+1. Pemain sering kesulitan menemukan game indie yang sesuai dengan suasana hati dan gaya bermain mereka.
+2. Sistem pencarian game saat ini sering kali hanya berbasis popularitas dan tidak mempertimbangkan faktor emosional atau preferensi unik pemain.
+3. Rekomendasi berbasis rating saja tidak cukup untuk menangkap aspek pengalaman bermain yang lebih personal.
+
+#### **Goals**
+1. Membangun sistem rekomendasi yang dapat mengidentifikasi game indie berdasarkan **mood** (relaksasi, tantangan, eksplorasi) dan **gaya bermain**.
+2. Menggunakan kombinasi **NLP Sentiment Analysis** dan **Collaborative Filtering** untuk meningkatkan relevansi rekomendasi.
+3. Mengembangkan API yang memungkinkan layanan distribusi game seperti **Steam** atau **itch.io** mengintegrasikan sistem rekomendasi ini.
+
 ### **Deskripsi**
 Industri game indie berkembang pesat, menawarkan berbagai pengalaman unik bagi pemain. Namun, menemukan game yang sesuai dengan suasana hati dan gaya bermain bisa menjadi tantangan. Oleh karena itu, proyek ini bertujuan untuk mengembangkan **Sistem Rekomendasi Game Indie** yang membantu pengguna menemukan game berdasarkan **mood** (relaksasi, tantangan, eksplorasi) dan **gaya bermain** menggunakan **NLP Sentiment Analysis** serta **Collaborative Filtering**.
 
@@ -106,12 +117,5 @@ Sistem rekomendasi ini telah diuji dan memberikan hasil yang relevan dengan mood
 ---
 
 ## **📌 Kesimpulan**
-- **Keunggulan**: Sistem rekomendasi berhasil menghubungkan pemain dengan game indie berdasarkan mood dan gaya bermain menggunakan pendekatan **NLP Sentiment Analysis** dan **Collaborative Filtering**.
-- **Limitasi**: Data ulasan pengguna belum dimanfaatkan secara maksimal dalam rekomendasi.
-- **Pengembangan Selanjutnya**:
-  - Integrasi lebih dalam dengan **Sentiment Analysis pada ulasan pengguna**.
-  - Peningkatan akurasi rekomendasi dengan metode **Hybrid Filtering**.
-  - Pengujian lebih lanjut dengan data real-time dari platform game.
-
-Dengan sistem ini, pencarian game indie yang sesuai dengan preferensi pengguna dapat dilakukan dengan lebih akurat dan efisien.
+Model yang dikembangkan **berhasil menyelesaikan tujuan Business Understanding** dengan memberikan rekomendasi yang relevan berdasarkan mood dan gaya bermain pengguna. Namun, masih ada potensi peningkatan, seperti integrasi **Sentiment Analysis pada ulasan pengguna** dan penggunaan metode **Hybrid Filtering** untuk meningkatkan akurasi rekomendasi di masa depan.
 
