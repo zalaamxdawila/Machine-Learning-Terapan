@@ -1,8 +1,9 @@
 # Laporan Proyek Machine Learning - M Dicky Desriansyah
 
-# Sistem Rekomendasi Game Indie 🎮🕹️
 
 ## Project Overview
+
+### Sistem Rekomendasi Game Indie 🎮🕹️
 
 Game adalah bentuk hiburan yang sangat populer dengan berbagai genre dan pengalaman bermain. Pemain memiliki preferensi unik berdasarkan suasana hati (mood) dan gaya bermain mereka. Oleh karena itu, sistem rekomendasi yang dapat memahami kebutuhan pemain sangat diperlukan untuk meningkatkan pengalaman bermain.
 
