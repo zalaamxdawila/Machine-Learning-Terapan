@@ -1,4 +1,6 @@
-# Laporan Proyek Machine Learning - Sistem Rekomendasi Game Indie 🎮🕹️
+# Laporan Proyek Machine Learning - M Dicky Desriansyah
+
+# Sistem Rekomendasi Game Indie 🎮🕹️
 
 ## Project Overview
 
