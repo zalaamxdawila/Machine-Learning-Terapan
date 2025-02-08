@@ -1,4 +1,4 @@
-# Laporan Proyek Machine Learning - Sistem Rekomendasi Game Indie Berdasarkan Mood & Gaya Bermain 🎮🕹️
+# Laporan Proyek Machine Learning - Sistem Rekomendasi Game Indie 🎮🕹️
 
 ## Project Overview
 
@@ -76,75 +76,72 @@ Evaluasi dilakukan menggunakan beberapa metrik:
 
 1. **Root Mean Squared Error (RMSE)** untuk mengukur kesalahan model pada prediksi rating:
 
-   ```python
-   rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-   print(f"RMSE Score: {rmse:.2f}")
-   ```
+     RMSE Score: 0.43
 
    **Hasil:** RMSE menunjukkan bahwa model memiliki tingkat kesalahan yang dapat diterima dalam merekomendasikan game.
 
 2. **Precision-Recall Curve** untuk mengevaluasi relevansi rekomendasi yang diberikan model:
 
-   ```python
-   precision, recall, _ = precision_recall_curve(y_test, y_pred_prob)
-   plt.plot(recall, precision, marker='.', label='Precision-Recall Curve')
-   ```
+   ![download](https://github.com/user-attachments/assets/83a8f9b2-a341-4011-bcb5-1c8b0d737cf2)
 
    **Hasil:** Model memiliki keseimbangan antara *precision* dan *recall* yang baik, menunjukkan bahwa rekomendasi cukup relevan.
 
 3. **Confusion Matrix** untuk mengevaluasi prediksi model:
 
-   ```python
-   cm = confusion_matrix(y_test, y_pred)
-   sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
-   ```
+   ![download](https://github.com/user-attachments/assets/0f8d0a0a-cae9-4b21-ab13-22ffca2ba123)
 
    **Hasil:** Model dapat membedakan game yang layak direkomendasikan dengan cukup baik.
 
 4. **Visualisasi Top Rated Games**:
 
-   ```python
-   def plot_top_rated_games():
-       top_games = df.sort_values(by='total_ratings', ascending=False).head(10)
-       plt.figure(figsize=(12, 6))
-       sns.barplot(x=top_games['total_ratings'], y=top_games['name'], palette='viridis')
-       plt.xlabel('Total Ratings')
-       plt.ylabel('Game Name')
-       plt.title('Top 10 Highest Rated Indie Games')
-       plt.show()
-   ```
+   ![download](https://github.com/user-attachments/assets/c9e6b651-993a-43ce-a7d0-61e05c4b7bd5)
 
    **Hasil:** Grafik menunjukkan game indie dengan rating tertinggi, yang dapat menjadi tambahan referensi bagi sistem rekomendasi.
-
+   
 ## Deployment
 
 Sistem rekomendasi ini dideploy menggunakan **Flask API**, yang memungkinkan pengguna mendapatkan rekomendasi game dengan mengirimkan permintaan HTTP ke endpoint tertentu.
 
-### Implementasi API
+### API Endpoint
 
-```python
-from flask import Flask, request, jsonify
+- **Endpoint:** `/recommend`
+- **Request:**
 
-app = Flask(__name__)
+  ```json
+  GET /recommend?game_name=Stardew Valley
+  ```
 
-@app.route('/recommend', methods=['GET'])
-def recommend():
-    game_name = request.args.get('game_name')
-    content_recommendations = get_similar_games(game_name)
-    knn_recommendations = recommend_games_knn(game_name)
-    return jsonify({'content': content_recommendations.to_dict(orient='records') if len(content_recommendations) > 0 else 'Game not found',
-                    'collaborative': knn_recommendations.to_dict(orient='records')})
+- **Response:**
 
-if __name__ == '__main__':
-    app.run(debug=True)
-```
+  ```json
+  {
+    "content": [ {"name": "Terraria", "genres": "indie adventure"}, ...],
+    "collaborative": [ {"name": "Hollow Knight", "genres": "indie action"}, ...]
+  }
+  ```
 
-Dengan API ini, pengguna dapat memperoleh rekomendasi dengan melakukan permintaan ke endpoint `/recommend` dengan parameter `game_name`.
+### Opsi Deployment
+
+Beberapa opsi *deployment* yang umum meliputi:
+
+- **Heroku:** Platform *cloud* yang mudah digunakan untuk *deployment* aplikasi sederhana.
+- **AWS:** Platform *cloud* dengan berbagai layanan untuk *deployment* dan skalabilitas aplikasi.
+- **Google Cloud Run:** Platform *serverless* untuk *deployment* dan eksekusi *container*.
+
+### Penanganan Error
+
+- **Validasi Input:** API memastikan input game sesuai format yang diinginkan.
+- **Logging:** Semua *request* dan *error* dicatat untuk memudahkan *debugging*.
 
 ## Kesimpulan
 
-Model rekomendasi ini berhasil memberikan rekomendasi game indie berdasarkan mood dan gaya bermain pengguna dengan pendekatan Content-Based Filtering dan Collaborative Filtering. Content-Based Filtering membantu memahami hubungan antar game dari deskripsi yang ada, sementara Collaborative Filtering memberikan rekomendasi berdasarkan preferensi pemain lain yang memiliki kesamaan.
+Proyek ini berhasil membangun sistem rekomendasi game indie berdasarkan mood dan gaya bermain pemain. Dengan menerapkan pendekatan *Content-Based Filtering* menggunakan NLP serta *Collaborative Filtering*, sistem dapat memberikan rekomendasi yang lebih personal dan relevan. 
 
-Evaluasi menunjukkan bahwa model ini memiliki tingkat kesalahan yang dapat diterima dan performa yang cukup baik dalam memberikan rekomendasi yang relevan. Dengan penerapan sistem ini dalam platform game digital, pengguna dapat menemukan game yang lebih sesuai dengan selera mereka, meningkatkan pengalaman bermain, serta memberikan eksposur lebih luas bagi pengembang game indie.
+Evaluasi menunjukkan bahwa model dapat memberikan rekomendasi dengan akurasi yang cukup baik, namun masih ada beberapa keterbatasan, seperti ketergantungan pada kualitas deskripsi game dan data rating pengguna.
 
-Di masa depan, sistem ini dapat ditingkatkan dengan mempertimbangkan faktor tambahan seperti interaksi waktu nyata, analisis sentimen dari ulasan pengguna, serta integrasi dengan data perilaku pemain untuk menghasilkan rekomendasi yang lebih akurat dan dinamis.
+Untuk pengembangan lebih lanjut, sistem ini dapat ditingkatkan dengan:
+- Menggunakan model *Deep Learning* seperti *Transformers* untuk meningkatkan pemahaman teks.
+- Memanfaatkan data perilaku pemain untuk rekomendasi yang lebih akurat.
+- Mengembangkan fitur rekomendasi berbasis *real-time* untuk pengalaman pengguna yang lebih dinamis.
+
+
