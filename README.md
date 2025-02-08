@@ -77,6 +77,24 @@ Hasil evaluasi:
 - **Heatmap Confusion Matrix** menunjukkan distribusi prediksi sentimen model.
 - **Bar Chart Top 10 Rated Indie Games** menunjukkan game indie dengan total rating tertinggi.
 
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def plot_top_rated_games():
+    top_games = df.sort_values(by='total_ratings', ascending=False).head(10)
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x=top_games['total_ratings'], y=top_games['name'], palette='viridis')
+    plt.xlabel('Total Ratings')
+    plt.ylabel('Game Name')
+    plt.title('Top 10 Highest Rated Indie Games')
+    plt.show()
+
+plot_top_rated_games()
+```
+
+Hasil visualisasi ini membantu dalam mengevaluasi apakah model mampu merekomendasikan game yang memang memiliki rating tinggi dan disukai oleh pengguna.
+
 ### **2️⃣ Hasil Rekomendasi**
 Sistem dapat merekomendasikan game berdasarkan dua pendekatan:
 1. **Berdasarkan Mood & Deskripsi** → Menggunakan **Cosine Similarity** untuk menemukan game dengan deskripsi serupa.
@@ -118,4 +136,3 @@ Sistem rekomendasi ini telah diuji dan memberikan hasil yang relevan dengan mood
 
 ## **📌 Kesimpulan**
 Model yang dikembangkan **berhasil menyelesaikan tujuan Business Understanding** dengan memberikan rekomendasi yang relevan berdasarkan mood dan gaya bermain pengguna. Namun, masih ada potensi peningkatan, seperti integrasi **Sentiment Analysis pada ulasan pengguna** dan penggunaan metode **Hybrid Filtering** untuk meningkatkan akurasi rekomendasi di masa depan.
-
