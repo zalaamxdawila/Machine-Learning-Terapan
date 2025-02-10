@@ -1,150 +1,200 @@
 # Laporan Proyek Machine Learning - M Dicky Desriansyah
 
-
 ## Project Overview
 
 ### Sistem Rekomendasi Game Indie 🎮🕹️
 
-Game adalah bentuk hiburan yang sangat populer dengan berbagai genre dan pengalaman bermain. Pemain memiliki preferensi unik berdasarkan suasana hati (mood) dan gaya bermain mereka. Oleh karena itu, sistem rekomendasi yang dapat memahami kebutuhan pemain sangat diperlukan untuk meningkatkan pengalaman bermain.
+Game adalah bentuk hiburan yang sangat populer dengan berbagai genre dan pengalaman bermain. Pemain memiliki preferensi unik berdasarkan suasana hati (*mood*) dan gaya bermain mereka. Oleh karena itu, sistem rekomendasi yang dapat memahami kebutuhan pemain sangat diperlukan untuk meningkatkan pengalaman bermain.
 
-Sistem rekomendasi ini bertujuan untuk membantu pemain menemukan game indie yang sesuai dengan preferensi mereka, baik berdasarkan mood (relaksasi, tantangan, eksplorasi) maupun gaya bermain yang disukai. Dengan menggunakan teknik *Natural Language Processing* (NLP) dan *Collaborative Filtering*, sistem ini dapat memberikan rekomendasi yang lebih personal.
+Sistem rekomendasi ini bertujuan untuk membantu pemain menemukan game indie yang sesuai dengan preferensi mereka, baik berdasarkan *mood* (relaksasi, tantangan, eksplorasi) maupun gaya bermain yang disukai. Dengan menggunakan teknik *Natural Language Processing* (NLP) dan *Collaborative Filtering*, sistem ini dapat memberikan rekomendasi yang lebih personal.
 
-Referensi terkait:
+**Referensi terkait:**  
 - [Recommender Systems in Gaming](https://dl.acm.org/doi/10.1145/3340631.3394856)
+
+---
 
 ## Business Understanding
 
 ### Problem Statements
 
-1. Bagaimana cara merekomendasikan game indie yang sesuai dengan mood pengguna berdasarkan deskripsi game dan ulasan pemain?
+1. Bagaimana cara merekomendasikan game indie yang sesuai dengan *mood* pengguna berdasarkan deskripsi game dan ulasan pemain?
 2. Bagaimana cara memberikan rekomendasi game yang relevan berdasarkan kesamaan gaya bermain antar pengguna?
 
 ### Goals
 
-1. Mengembangkan sistem yang dapat memahami mood pengguna dari deskripsi dan ulasan game menggunakan teknik NLP.
+1. Mengembangkan sistem yang dapat memahami *mood* pengguna dari deskripsi dan ulasan game menggunakan teknik NLP.
 2. Mengimplementasikan sistem *Collaborative Filtering* untuk memberikan rekomendasi berdasarkan kesamaan preferensi pemain.
 
 ### Solution Approach
 
 Untuk mencapai tujuan di atas, sistem rekomendasi dikembangkan menggunakan dua pendekatan utama:
 
-1. **Content-Based Filtering (NLP Sentiment Analysis)** - Memanfaatkan *TF-IDF Vectorization* dan *Cosine Similarity* untuk memahami hubungan antar game berdasarkan deskripsi dan ulasan pengguna.
-2. **Collaborative Filtering (K-Nearest Neighbors - KNN)** - Menggunakan pendekatan berbasis tetangga terdekat untuk merekomendasikan game yang dimainkan oleh pemain dengan preferensi serupa.
+1. **Content-Based Filtering (NLP Sentiment Analysis)**  
+   - Memanfaatkan *TF-IDF Vectorization* dan *Cosine Similarity* untuk memahami hubungan antar game berdasarkan deskripsi dan ulasan pengguna.
+
+---
 
 ## Data Understanding
 
-Dataset yang digunakan dalam proyek ini adalah **Steam Store Games Dataset** dari Kaggle:
+Dataset yang digunakan dalam proyek ini adalah *Steam Store Games Dataset* dari Kaggle. Dataset ini berisi informasi tentang berbagai game yang tersedia di platform Steam.
 
-- Link: [Steam Store Games Dataset](https://www.kaggle.com/datasets/nikdavis/steam-store-games)
+### Sumber Data
+- Dataset: [*Steam Store Games Dataset*](https://www.kaggle.com/datasets/nikdavis/steam-store-games)
 
-Dataset terdiri dari beberapa file utama:
+### Struktur Dataset
+Dataset yang digunakan terdiri dari tiga file:
 
-1. `steam.csv` - Data utama yang mencakup informasi game seperti nama, genre, dan rating.
-2. `steam_description_data.csv` - Berisi deskripsi game yang digunakan untuk analisis NLP.
-3. `steamspy_tag_data.csv` - Berisi informasi tag untuk memahami preferensi genre.
+1. **steam.csv**
+   - Jumlah data: 27.075 baris, 18 kolom
+   - Kondisi data: Terdapat *missing values* pada beberapa kolom seperti `release_date`, `english`, dan `required_age`.
+   - Fitur utama: `appid`, `name`, `release_date`, `genres`, `positive_ratings`, `negative_ratings`, `price`.
 
+2. **steam_description_data.csv**
+   - Jumlah data: 27334 baris, 4 kolom
+   - Fitur utama: `steam_appid`, `short_description`, `detailed_description`, `about_the_game`.
+
+3. **steamspy_tag_data.csv**
+   - Jumlah data: 29022 baris, 372 kolom
+   - Kondisi data: Sebagian besar kolom berisi jumlah tag yang diberikan oleh pengguna.
+
+### Analisis Awal
 Visualisasi awal dilakukan untuk memahami distribusi rating, genre, dan popularitas game indie.
+
+---
 
 ## Data Preparation
 
-Beberapa langkah *data preparation* yang dilakukan:
+Langkah-langkah *data preparation* yang dilakukan:
 
-1. **Cleaning Text**: Membersihkan deskripsi game dari karakter khusus dan stopwords.
-2. **Merging Data**: Menggabungkan informasi dari beberapa file dataset berdasarkan *appid*.
-3. **Filtering Indie Games**: Memfilter hanya game dengan genre "Indie".
-4. **Feature Engineering**: Membuat fitur tambahan seperti *total\_ratings*.
+1. **Merging Data**: Menggabungkan informasi dari tiga file dataset (`steam.csv`, `steam_description_data.csv`, dan `steamspy_tag_data.csv`) berdasarkan `appid` untuk mendapatkan dataset yang lebih komprehensif.
+2. **Filtering Indie Games**: Memfilter data untuk hanya menyertakan game dengan genre *Indie*.
+3. **Data Cleaning**:
+   - Membersihkan teks pada kolom `genres` dan `detailed_description`.
+   - Menghapus *stop words* dan tanda baca.
+   - Mengubah teks menjadi huruf kecil.
+4. **Feature Engineering**:
+   - Membuat fitur baru `total_ratings` dengan mengurangkan `negative_ratings` dari `positive_ratings`.
+5. **TF-IDF Vectorization**:
+   - Menerapkan *TF-IDF Vectorization* pada kolom `detailed_description` untuk mengukur relevansi kata dalam deskripsi game relatif terhadap keseluruhan dokumen.
+   - Ekstraksi fitur dengan *TF-IDF* (*Term Frequency-Inverse Document Frequency*) adalah metode pemrosesan data yang dilakukan untuk mengukur pentingnya sebuah kata dalam sebuah dokumen relatif terhadap kumpulan dokumen lainnya.
+6. **Perhitungan Cosine Similarity**:
+   - Digunakan untuk mengukur kemiripan antara deskripsi game berdasarkan vektor *TF-IDF*.
 
-## Modeling and Result
+---
 
-Model yang digunakan untuk sistem rekomendasi ini terdiri dari dua pendekatan:
+## Modeling and Results
 
-1. **Content-Based Filtering**:
-   - Menggunakan *TF-IDF Vectorizer* untuk mengekstrak fitur dari deskripsi game.
-   - Menghitung kesamaan antar game menggunakan *Cosine Similarity*.
-   - Menghasilkan rekomendasi berdasarkan game yang memiliki deskripsi serupa.
-2. **Collaborative Filtering (KNN)**:
-   - Menggunakan algoritma *K-Nearest Neighbors (KNN)* untuk mencari game dengan gaya bermain serupa.
-   - Menggunakan *Cosine Distance* sebagai metrik kesamaan antar game.
+Sistem rekomendasi ini dibangun menggunakan pendekatan *Content-Based Filtering* dengan memanfaatkan *Cosine Similarity* untuk menemukan game yang memiliki kemiripan konten dengan game yang disukai pengguna.
 
-**Kelebihan dan Kekurangan Pendekatan:**
+### Cara Kerja Sistem Rekomendasi
 
-| Pendekatan              | Kelebihan                                                        | Kekurangan                                                       |
-| ----------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| Content-Based Filtering | Memberikan rekomendasi yang sangat relevan dengan deskripsi game | Tidak dapat merekomendasikan game baru tanpa deskripsi yang kaya |
-| Collaborative Filtering | Memahami hubungan antar pemain berdasarkan preferensi mereka     | Bergantung pada data rating yang cukup untuk bekerja dengan baik |
+1. **Ekstraksi Fitur dan Pembobotan**: Deskripsi setiap game diubah menjadi representasi numerik menggunakan metode *Term Frequency-Inverse Document Frequency* (TF-IDF). TF-IDF memberikan bobot pada setiap kata dalam deskripsi game, yang mencerminkan seberapa penting kata tersebut dalam game tertentu dan dalam keseluruhan koleksi game.
+2. **Perhitungan Cosine Similarity**: Setelah deskripsi game diubah menjadi vektor TF-IDF, *cosine similarity* dihitung antara setiap pasangan game. *Cosine similarity* mengukur kemiripan antara dua vektor berdasarkan sudut di antara keduanya. Semakin tinggi nilai *cosine similarity*, semakin mirip kedua game tersebut.
+3. **Pemberian Rekomendasi**: Ketika pengguna ingin mendapatkan rekomendasi game yang mirip dengan game tertentu, sistem akan mencari game lain dengan nilai *cosine similarity* tertinggi terhadap game tersebut. Game-game dengan nilai similarity tertinggi kemudian direkomendasikan kepada pengguna.
 
-## Evaluation
+### Cara Kerja
+1. Representasi teks game menggunakan TF-IDF.
+2. Perhitungan *Cosine Similarity* untuk menemukan game yang memiliki kemiripan konten.
+3. Game dengan nilai *similarity* tertinggi direkomendasikan kepada pengguna.
 
-Evaluasi dilakukan menggunakan beberapa metrik:
+### Contoh Rekomendasi untuk *Hollow Knight*
 
-1. **Root Mean Squared Error (RMSE)** untuk mengukur kesalahan model pada prediksi rating:
+![download](https://github.com/user-attachments/assets/31abf9dc-0c0d-42f7-86a3-db9cf27e21b4)
 
-     RMSE Score: 0.43
+| Rank | Game | Genres |
+|------|-----------------------|--------------------------|
+| 1 | Omega Strike | Action, Adventure, Indie |
+| 2 | SWARMRIDER OMEGA | Action, Indie |
+| 3 | Ares Omega | Action, Indie, RPG |
+| 4 | ATOMEGA | Action, Indie |
+| 5 | Survivor of Eschewal | Action, Adventure, Indie |
 
-   **Hasil:** RMSE menunjukkan bahwa model memiliki tingkat kesalahan yang dapat diterima dalam merekomendasikan game.
+### Kelebihan dan Kekurangan *Content-Based Filtering*
 
-2. **Precision-Recall Curve** untuk mengevaluasi relevansi rekomendasi yang diberikan model:
+| Pendekatan | Kelebihan | Kekurangan |
+|------------|--------------------------------------|------------------------------------------------|
+| Content-Based Filtering | Relevansi tinggi dengan deskripsi game | Tidak dapat merekomendasikan game baru tanpa deskripsi yang kaya |
+| | Mudah diimplementasikan | Terbatas pada informasi deskripsi game |
 
-   ![download](https://github.com/user-attachments/assets/83a8f9b2-a341-4011-bcb5-1c8b0d737cf2)
+---
 
-   **Hasil:** Model memiliki keseimbangan antara *precision* dan *recall* yang baik, menunjukkan bahwa rekomendasi cukup relevan.
+# Evaluation
 
-3. **Confusion Matrix** untuk mengevaluasi prediksi model:
+Sistem rekomendasi dievaluasi kinerjanya menggunakan dua metrik, yaitu **Precision@5** dan **Recall@5**.
 
-   ![download](https://github.com/user-attachments/assets/0f8d0a0a-cae9-4b21-ab13-22ffca2ba123)
+- **Precision@5** mengukur seberapa akurat sistem dalam merekomendasikan game yang relevan di antara 5 game teratas yang direkomendasikan.  
+- **Recall@5** mengukur seberapa lengkap sistem dalam merekomendasikan game yang relevan dari keseluruhan game yang relevan yang ada.
 
-   **Hasil:** Model dapat membedakan game yang layak direkomendasikan dengan cukup baik.
+Game yang dianggap relevan dalam evaluasi ini adalah game-game yang memiliki total rating (`total_ratings`) di atas **persentil ke-75** dari seluruh game dalam dataset.
 
-4. **Visualisasi Top Rated Games**:
+## Hasil Evaluasi
 
-   ![download](https://github.com/user-attachments/assets/c9e6b651-993a-43ce-a7d0-61e05c4b7bd5)
+Hasil evaluasi untuk game contoh *"Hollow Knight"* adalah sebagai berikut:
 
-   **Hasil:** Grafik menunjukkan game indie dengan rating tertinggi, yang dapat menjadi tambahan referensi bagi sistem rekomendasi.
-   
+![download](https://github.com/user-attachments/assets/9697357d-805f-4f1b-a102-2798e7b2af9e)
+
+| Metrik        | Skor        |
+|--------------|------------|
+| Precision@5  | 0.2        |
+| Recall@5     | 0.000206016 |
+
+### Interpretasi Hasil:
+
+- **Precision@5 = 0.2** → Artinya, 20% dari 5 game teratas yang direkomendasikan untuk *"Hollow Knight"* oleh sistem adalah game yang relevan.  
+- **Recall@5 = 0.000206016** → Artinya, sistem hanya merekomendasikan sebagian kecil (sekitar **0.02%**) dari keseluruhan game yang relevan untuk *"Hollow Knight"*.
+
+## Visualisasi Game dengan Rating Tertinggi
+
+Selain metrik **Precision@5** dan **Recall@5**, bagian evaluasi juga menyertakan visualisasi **10 game dengan rating tertinggi** dalam dataset. Visualisasi ini dibuat menggunakan fungsi `plot_top_rated_games()`:
+
+![download](https://github.com/user-attachments/assets/7b898c7f-febd-4c00-a153-af9a5ab85b48)
+
+Fungsi ini mengurutkan game berdasarkan total rating (total_ratings) secara menurun (descending) dan mengambil 10 game teratas. Kemudian, fungsi ini membuat bar plot menggunakan library seaborn untuk menampilkan game-game tersebut beserta total rating mereka. Visualisasi ini memberikan gambaran tentang game-game yang paling populer dan memiliki rating tertinggi dalam dataset.
+
+
+---
+
 ## Deployment
 
-Sistem rekomendasi ini dideploy menggunakan **Flask API**, yang memungkinkan pengguna mendapatkan rekomendasi game dengan mengirimkan permintaan HTTP ke endpoint tertentu.
+Sistem rekomendasi di-*deploy* menggunakan *Flask API*.
 
 ### API Endpoint
+**Endpoint**: `/recommend`  
+**Metode**: `GET`  
+**Parameter**: `game_name` (wajib)
 
-- **Endpoint:** `/recommend`
-- **Request:**
+**Contoh Permintaan:**
+```http
+GET /recommend?game_name=Stardew Valley
+```
 
-  ```json
-  GET /recommend?game_name=Stardew Valley
-  ```
+**Contoh Respons:**
+```json
+{
+  "content": [
+    {"name": "Terraria", "genres": "Action, Adventure, Indie, RPG"},
+    {"name": "Starbound", "genres": "Action, Adventure, Indie, RPG, Simulation"}
+  ]
+}
+```
 
-- **Response:**
-
-  ```json
-  {
-    "content": [ {"name": "Terraria", "genres": "indie adventure"}, ...],
-    "collaborative": [ {"name": "Hollow Knight", "genres": "indie action"}, ...]
-  }
-  ```
-
-### Opsi Deployment
-
-Beberapa opsi *deployment* yang umum meliputi:
-
-- **Heroku:** Platform *cloud* yang mudah digunakan untuk *deployment* aplikasi sederhana.
-- **AWS:** Platform *cloud* dengan berbagai layanan untuk *deployment* dan skalabilitas aplikasi.
-- **Google Cloud Run:** Platform *serverless* untuk *deployment* dan eksekusi *container*.
+### Opsi *Deployment*
+- **Heroku**
+- **AWS**
+- **Google Cloud Run**
 
 ### Penanganan Error
+- **Validasi Input**: API memastikan input game sesuai format yang diinginkan.
+- **Logging**: Semua *request* dan *error* dicatat untuk memudahkan *debugging*.
 
-- **Validasi Input:** API memastikan input game sesuai format yang diinginkan.
-- **Logging:** Semua *request* dan *error* dicatat untuk memudahkan *debugging*.
+---
 
 ## Kesimpulan
 
-Proyek ini berhasil membangun sistem rekomendasi game indie berdasarkan mood dan gaya bermain pemain. Dengan menerapkan pendekatan *Content-Based Filtering* menggunakan NLP serta *Collaborative Filtering*, sistem dapat memberikan rekomendasi yang lebih personal dan relevan. 
+Proyek ini berhasil membangun sistem rekomendasi game indie berdasarkan *mood* dan gaya bermain pemain. Sistem ini menggunakan pendekatan *Content-Based Filtering* dan *Collaborative Filtering* untuk memberikan rekomendasi yang lebih personal.
 
-Evaluasi menunjukkan bahwa model dapat memberikan rekomendasi dengan akurasi yang cukup baik, namun masih ada beberapa keterbatasan, seperti ketergantungan pada kualitas deskripsi game dan data rating pengguna.
-
-Untuk pengembangan lebih lanjut, sistem ini dapat ditingkatkan dengan:
+### Rencana Pengembangan Selanjutnya
 - Menggunakan model *Deep Learning* seperti *Transformers* untuk meningkatkan pemahaman teks.
-- Memanfaatkan data perilaku pemain untuk rekomendasi yang lebih akurat.
+- Memanfaatkan data perilaku pemain.
 - Mengembangkan fitur rekomendasi berbasis *real-time* untuk pengalaman pengguna yang lebih dinamis.
-
 
