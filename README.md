@@ -18,12 +18,12 @@ Sistem rekomendasi ini bertujuan untuk membantu pemain menemukan game indie yang
 ### Problem Statements
 
 1. Bagaimana cara merekomendasikan game indie yang sesuai dengan *mood* pengguna berdasarkan deskripsi game dan ulasan pemain?
-2. Bagaimana cara memberikan rekomendasi game yang relevan berdasarkan kesamaan gaya bermain antar pengguna?
+2. Bagaimana cara memberikan rekomendasi game yang relevan dengan gaya bermain pemain berdasarkan analisis konten dan deskripsi game?
 
 ### Goals
 
 1. Mengembangkan sistem yang dapat memahami *mood* pengguna dari deskripsi dan ulasan game menggunakan teknik NLP.
-2. Mengimplementasikan sistem *Collaborative Filtering* untuk memberikan rekomendasi berdasarkan kesamaan preferensi pemain.
+2. Mengimplementasikan sistem rekomendasi berbasis Content-Based Filtering untuk menemukan game dengan pola kesamaan preferensi pemain.
 
 ### Solution Approach
 
@@ -45,17 +45,58 @@ Dataset yang digunakan dalam proyek ini adalah *Steam Store Games Dataset* dari 
 Dataset yang digunakan terdiri dari tiga file:
 
 1. **steam.csv**
-   - Jumlah data: 27.075 baris, 18 kolom
-   - Kondisi data: Terdapat *missing values* pada beberapa kolom seperti `release_date`, `english`, dan `required_age`.
-   - Fitur utama: `appid`, `name`, `release_date`, `genres`, `positive_ratings`, `negative_ratings`, `price`.
-
+   - **Jumlah data:** 27075 baris dan 18 kolom.
+   - **Kondisi data:**
+     - *Missing Value:* Terdapat missing value pada beberapa kolom, seperti publisher, platforms, categories, genres, achievements, average_playtime, median_playtime, owners, dan price.
+     - *Duplikat:* Tidak ada data duplikat berdasarkan kolom appid.
+     - *Outlier:* Terdapat outlier pada kolom numerik, seperti positive_ratings, negative_ratings, average_playtime, median_playtime, dan price.
+   
 2. **steam_description_data.csv**
-   - Jumlah data: 27334 baris, 4 kolom
-   - Fitur utama: `steam_appid`, `short_description`, `detailed_description`, `about_the_game`.
-
+   - **Jumlah data:** 27268 baris dan 5 kolom.
+   - **Kondisi data:**
+     - *Missing Value:* Terdapat missing value pada kolom detailed_description, about_the_game, dan short_description.
+     - *Duplikat:* Tidak ada data duplikat berdasarkan kolom steam_appid.
+     - *Outlier:* Tidak ada outlier pada data ini karena sebagian besar kolom berisi teks.
+   
 3. **steamspy_tag_data.csv**
-   - Jumlah data: 29022 baris, 372 kolom
-   - Kondisi data: Sebagian besar kolom berisi jumlah tag yang diberikan oleh pengguna.
+   - **Jumlah data:** 37296 baris dan 372 kolom.
+   - **Kondisi data:**
+     - *Missing Value:* Setiap kolom tag (selain appid) dapat berisi missing value jika game tidak memiliki tag tersebut.
+     - *Duplikat:* Tidak ada data duplikat berdasarkan kolom appid.
+     - *Outlier:* Tidak ada outlier pada data ini karena sebagian besar kolom berisi data tag.
+
+### Uraian Fitur pada Dataset
+
+#### steam.csv
+- **appid**: ID unik untuk setiap game di Steam.
+- **name**: Nama game.
+- **release_date**: Tanggal rilis game.
+- **english**: Apakah game tersedia dalam bahasa Inggris (1 untuk ya, 0 untuk tidak).
+- **developer**: Nama pengembang game.
+- **publisher**: Nama penerbit game.
+- **platforms**: Platform tempat game tersedia (Windows, Mac, Linux).
+- **required_age**: Batas usia minimum yang disarankan untuk memainkan game.
+- **categories**: Kategori game (misalnya, Single-player, Multi-player, Action, Adventure).
+- **genres**: Genre game (misalnya, Action, Adventure, RPG, Indie).
+- **achievements**: Jumlah achievement yang tersedia dalam game.
+- **positive_ratings**: Jumlah rating positif yang diterima game.
+- **negative_ratings**: Jumlah rating negatif yang diterima game.
+- **average_playtime**: Rata-rata waktu bermain dalam menit.
+- **median_playtime**: Waktu bermain median dalam menit.
+- **owners**: Perkiraan jumlah pemilik game.
+- **price**: Harga game dalam dolar AS.
+
+#### steam_description_data.csv
+- **steam_appid**: ID unik untuk setiap game di Steam.
+- **detailed_description**: Deskripsi detail game.
+- **about_the_game**: Informasi singkat tentang game.
+- **short_description**: Deskripsi singkat game.
+- **reviews**: Ulasan pengguna tentang game.
+
+#### steamspy_tag_data.csv
+- **appid**: ID unik untuk setiap game di Steam.
+- **Kolom lainnya**: Merepresentasikan tag yang terkait dengan game. Setiap tag disertai dengan jumlah pengguna yang telah menerapkan tag tersebut ke game.
+
 
 ### Analisis Awal
 Visualisasi awal dilakukan untuk memahami distribusi rating, genre, dan popularitas game indie.
@@ -77,8 +118,6 @@ Langkah-langkah *data preparation* yang dilakukan:
 5. **TF-IDF Vectorization**:
    - Menerapkan *TF-IDF Vectorization* pada kolom `detailed_description` untuk mengukur relevansi kata dalam deskripsi game relatif terhadap keseluruhan dokumen.
    - Ekstraksi fitur dengan *TF-IDF* (*Term Frequency-Inverse Document Frequency*) adalah metode pemrosesan data yang dilakukan untuk mengukur pentingnya sebuah kata dalam sebuah dokumen relatif terhadap kumpulan dokumen lainnya.
-6. **Perhitungan Cosine Similarity**:
-   - Digunakan untuk mengukur kemiripan antara deskripsi game berdasarkan vektor *TF-IDF*.
 
 ---
 
